@@ -9,8 +9,9 @@ use yii\grid\GridView;
 /** @var yii\web\View $this */
 /** @var app\models\BillSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
+/** @var app\models\Bills $model */
 
-$this->title = 'Bills';
+$this->title = 'Lançamentos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="bill-index">
@@ -18,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Bill', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Criar Lançamento', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -27,19 +28,50 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'category_id',
-            'type',
-            'date',
+            [
+                'attribute' => 'date',
+                'format' => 'date',
+                'headerOptions' => ['class' => 'text-center', 'style' => 'width: 115px'],
+                'contentOptions' => ['class' => 'text-center'],
+            ],
             'description',
-            //'amount',
-            //'status',
-            //'created_at',
-            //'updated_at',
+            [
+                'attribute' => 'category_id',
+                'headerOptions' => ['class' => 'text-center', 'style' => 'width: 145px'],
+                'contentOptions' => ['class' => 'text-center'],
+                //'content' => function (Bill $model, $key, $index, $column) {
+                  //  return $model->category->name;
+                //} 
+            ],
+            [
+                'attribute' => 'type',
+                'filter' => Bill::getTypeOptions(),
+                'headerOptions' => ['class' => 'text-center', 'style' => 'width: 160px'],
+                'contentOptions' => ['class' => 'text-center'],
+                 'content' => function (Bill $model, $key, $index, $column) {
+                   return $model->getTypeText();
+                } 
+            ],
+            [
+                'attribute' => 'amount',
+                'format' => 'currency',
+                 'headerOptions' => ['class' => 'text-center', 'style' => 'width: 100px'],
+                 'contentOptions' => ['class' => 'text-center'],
+            ],
+            [
+                'attribute' => 'status',
+                'filter' => Bill::getStatusOptions(),
+                 'headerOptions' => ['class' => 'text-center', 'style' => 'width: 115px'],
+                 'contentOptions' => ['class' => 'text-center'],
+                 'content' => function (Bill $model, $key, $index, $column) {
+                    return $model->getStatusText();
+                 } 
+            ],
             [
                 'class' => ActionColumn::className(),
+                'headerOptions' => ['class' => 'text-center', 'style' => 'width: 90px'],
+                'contentOptions' => ['class' => 'text-center'],
+                'header' => 'Ações',
                 'urlCreator' => function ($action, Bill $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }

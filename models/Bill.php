@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\db\Expression;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%bills}}".
@@ -19,6 +21,11 @@ use Yii;
  */
 class Bill extends \yii\db\ActiveRecord
 {
+    const TYPE_RECEIVE = 1;
+    const TYPE_PAY = 2;
+
+    const STATUS_OPENED = 1;
+    const STATUS_PAYED_RECEIVED = 2;
     /**
      * {@inheritdoc}
      */
@@ -48,14 +55,56 @@ class Bill extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'category_id' => 'Category ID',
-            'type' => 'Type',
-            'date' => 'Date',
-            'description' => 'Description',
-            'amount' => 'Amount',
+            'category_id' => 'Categoria',
+            'type' => 'Tipo',
+            'date' => 'Data',
+            'description' => 'Descrição',
+            'amount' => 'Valor',
             'status' => 'Status',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'created_at' => 'Data da Criação',
+            'updated_at' => 'Última Atualização',
         ];
     }
+
+        /**
+     * Gets query for [[Category]]. 
+     * 
+     * @return \use yii\db\ActiveQuery;
+     */
+
+     public function getCategory() 
+     {
+         return $this->hasMany(Category::className(), ['id' => 'category_id']);
+     }
+
+     public function isOpened () 
+     {
+        return (int) $this->status === static::STATUS_OPENED;
+     }
+
+     public function getTypeText(): string
+     {
+        return static::getTypeOptions()[$this->type];
+     }
+
+     public function getStatusText(): string
+     {
+        return static::getStatusOptions()[$this->status];
+     }
+
+     public static function getTypeOptions(): array 
+     {
+        return [
+            static::TYPE_RECEIVE => 'Contas a Receber',
+            static::TYPE_PAY => 'Contas a Pagar',
+        ];
+     }
+
+     public static function getStatusOptions(): array 
+     {
+        return [
+            static::STATUS_OPENED => 'Em aberto',
+            static::STATUS_PAYED_RECEIVED => 'Pago/Recebido',
+        ];
+     }
 }

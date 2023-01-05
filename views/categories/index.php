@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\SearchSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Categories';
+$this->title = 'Categorias';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="category-index">
