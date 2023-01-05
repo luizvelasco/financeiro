@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use app\models\Category;
-use app\models\SearchSearch;
+use app\models\CategorySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -38,7 +38,7 @@ class CategoriesController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new SearchSearch();
+        $searchModel = new CategorySearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [

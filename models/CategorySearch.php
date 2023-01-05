@@ -9,7 +9,7 @@ use app\models\Category;
 /**
  * SearchSearch represents the model behind the search form of `app\models\Category`.
  */
-class SearchSearch extends Category
+class CategorySearch extends Category
 {
     /**
      * {@inheritdoc}
@@ -17,19 +17,11 @@ class SearchSearch extends Category
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['name', 'created_at', 'updated_at'], 'safe'],
+            ['name',  'string', 'max' => 60],
+            ['name',  'safe'],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
 
     /**
      * Creates data provider instance with search query applied
@@ -40,7 +32,8 @@ class SearchSearch extends Category
      */
     public function search($params)
     {
-        $query = Category::find();
+        $query = Category::find()
+            ->orderBy('name ASC');
 
         // add conditions that should always apply here
 
