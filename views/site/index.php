@@ -15,7 +15,7 @@ $this->title = 'Sistema Financeiro Pessoal';
             ]) ?>
         </p>
         <p>
-            <?= Html::a ('Ver Relatórios', ['reports'], [
+            <?= Html::a ('Ver Relatórios', ['reports/index'], [
                 'title' => 'Ver meus relatórios',
                 'class' => 'btn btn-sm btn-link' 
             ]) ?>
