@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\db\Expression;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%bills}}".
@@ -16,7 +18,8 @@ use Yii;
  * @property int $status
  * @property string $created_at
  * @property string|null $updated_at
- *
+ * 
+ * @property Category $category
  */
 class Bill extends \yii\db\ActiveRecord
 {
@@ -25,7 +28,6 @@ class Bill extends \yii\db\ActiveRecord
 
     const STATUS_OPENED = 1;
     const STATUS_PAYED_RECEIVED = 2;
-
     /**
      * {@inheritdoc}
      */
@@ -45,7 +47,6 @@ class Bill extends \yii\db\ActiveRecord
             [['date', 'created_at', 'updated_at'], 'safe'],
             [['amount'], 'number'],
             [['description'], 'string', 'max' => 60],
-            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
         ];
     }
 
@@ -62,22 +63,23 @@ class Bill extends \yii\db\ActiveRecord
             'description' => 'Descrição',
             'amount' => 'Valor',
             'status' => 'Status',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'created_at' => 'Data da Criação',
+            'updated_at' => 'Última Atualização',
         ];
     }
 
-    /**
-     * Gets query for [[Category]].
-     *
-     * @return \yii\db\ActiveQuery
+        /**
+     * Gets query for [[Category]]. 
+     * 
+     * @return \use yii\db\ActiveQuery;
      */
-    public function getCategory()
-    {
-        return $this->hasOne(Category::class, ['id' => 'category_id']);
-    }
 
-    public function isOpened () 
+     public function getCategory() 
+     {
+         return $this->hasMany(Category::className(), ['id' => 'category_id']);
+     }
+
+     public function isOpened () 
      {
         return (int) $this->status === static::STATUS_OPENED;
      }

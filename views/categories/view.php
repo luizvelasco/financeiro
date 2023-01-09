@@ -37,18 +37,19 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <div class="list-group">
-        <?php foreach ($model->bills as $bill): ?>
-            <?php $color = ($bill->type === 1 ? 'success' : 'danger') ?>
-            <a href="<?= Url::to(['bills/update', 'id' => $bill->id]) ?>" class="list-group-item-<?= $color ?>">
-                <h4 class="list-group-item-heading"><?= $bill->description ?></h4>
+<div class="list-group">
+        <?php foreach ($model->bill as $bills): ?>
+            <?php $color = ($bills->type === 1 ? 'success' : 'danger') ?>
+            <a href="<?= Url::to(['bills/update', 'id' => $bills->id]) ?>" class="list-group-item-<?= $color ?>">
+                <h4 class="list-group-item-heading"><?= $bills->description ?></h4>
                 <p class="list-group-item-text">
-                    <?= $bill->date ?> | R$ <?= $bill->amount ?>
+                    <?= $bills->date ?> | R$ <?= $bills->amount ?>
                 </p>
             </a>
 
         <?php endforeach; ?>
 
     </div>
+
 
 </div>

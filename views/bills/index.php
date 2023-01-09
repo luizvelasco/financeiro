@@ -1,6 +1,8 @@
 <?php
 
 use app\models\Bill;
+use app\models\Category;
+
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -10,6 +12,7 @@ use yii\grid\GridView;
 /** @var app\models\BillSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 /** @var app\models\Bills $model */
+/** @var app\models\Category $model */
 
 $this->title = 'Lançamentos';
 $this->params['breadcrumbs'][] = $this->title;
@@ -37,11 +40,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'description',
             [
                 'attribute' => 'category_id',
+                'filter' => Category::getOptions(),
                 'headerOptions' => ['class' => 'text-center', 'style' => 'width: 145px'],
                 'contentOptions' => ['class' => 'text-center'],
-                //'content' => function (Bill $model, $key, $index, $column) {
-                  //  return $model->category->name;
-                //} 
+                'content' => function (Bill $model, $key, $index, $column) {
+                    return $model->category->name;
+                } 
             ],
             [
                 'attribute' => 'type',
@@ -49,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => ['class' => 'text-center', 'style' => 'width: 160px'],
                 'contentOptions' => ['class' => 'text-center'],
                  'content' => function (Bill $model, $key, $index, $column) {
-                   return $model->getTypeText();
+                    return $model->getTypeText();
                 } 
             ],
             [
@@ -78,6 +82,4 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-
-
 </div>

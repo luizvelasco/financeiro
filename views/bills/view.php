@@ -34,14 +34,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'category_id',
                 'value' => $model->category->name
             ],
-            'category_id',
-            'type',
-            'date',
+            [
+                'attribute' => 'type',
+                'value' => $model->getTypeText()
+            ],
+            'date:date',
             'description',
-            'amount',
-            'status',
-            'created_at',
-            'updated_at',
+            'amount:currency',
+            [
+                'attribute' => 'status',
+                'value' => $model->getStatusText()
+            ],
+            'created_at:datetime',
+            'updated_at:datetime',
         ],
     ]) ?>
 
